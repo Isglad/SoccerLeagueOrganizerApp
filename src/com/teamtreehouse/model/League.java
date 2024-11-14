@@ -280,8 +280,12 @@ public class League {
             return;
         }
 
+        // Sort players alphabetically by last name
+        List<Player> sortedPlayers = new ArrayList<>(selectedTeam.getTeamPlayers());
+        sortedPlayers.sort(null);
+
         //  Display each player's stats
-        for (Player player : selectedTeam.getTeamPlayers()) {
+        for (Player player : sortedPlayers) {
             String experience = player.isPreviousExperience() ? "experienced" : "inexperienced";
             System.out.printf("Name: %s %s, Height: %d inches, experience: %s%n",
                     player.getFirstName(), player.getLastName(), player.getHeightInInches(), experience);
