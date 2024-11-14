@@ -1,6 +1,7 @@
 package com.teamtreehouse.model;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class League {
     private static final int MAX_PLAYERS = 33;
@@ -107,20 +108,19 @@ public class League {
             System.out.println("This team already has the maximum of 11 players.");
             return;
         }
-        //Show available players and allow selection
-        Player player = displayPlayersAlphabetically(List.of(playerDatabase));
-        if (player == null){
-            return;
-        }
-        // Check if the selected team already has this player
-        if (selectedTeam.getTeamPlayers().contains(player)) {
-            System.out.println(player.getFirstName() + " " + player.getLastName() + " already exists in this team");
+        //Show only available players and allow selection
+        List<Player> availablePlayers = Arrays.stream(playerDatabase)
+                .filter(player -> !allPlayers.contains(player))
+                .collect(Collectors.toList());
+
+        Player player = displayPlayersAlphabetically(availablePlayers);
+        if(player == null) {
             return;
         }
 
-        // Check if the player is already in any team
-        if (allPlayers.contains(player)){
-            System.out.println(player.getFirstName() + " " + player.getLastName() + " is already assigned to a team.");
+        // Check if the selected team already has this player
+        if (selectedTeam.getTeamPlayers().contains(player)) {
+            System.out.println(player.getFirstName() + " " + player.getLastName() + " already exists in this team");
             return;
         }
 
